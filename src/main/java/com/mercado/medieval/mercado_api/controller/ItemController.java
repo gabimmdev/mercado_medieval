@@ -47,7 +47,7 @@ public class ItemController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/1")
     public Item atualizar(@PathVariable Long id, @RequestBody @Valid Item novo) {
         Item item = repo.findById(id).orElseThrow();
         item.setNome(novo.getNome());
@@ -58,27 +58,27 @@ public class ItemController {
         return repo.save(item);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/1")
     public void deletar(@PathVariable Long id) {
         repo.deleteById(id);
     }
 
-    @GetMapping("/buscar/nome")
+    @GetMapping("/nome")
     public List<Item> buscarPorNome(@RequestParam String nome) {
         return repo.findByNomeContainingIgnoreCase(nome);
     }
 
-    @GetMapping("/buscar/tipo")
+    @GetMapping("/tipo")
     public List<Item> buscarPorTipo(@RequestParam TipoItem tipo) {
         return repo.findByTipo(tipo);
     }
 
-    @GetMapping("/buscar/raridade")
+    @GetMapping("/raridade")
     public List<Item> buscarPorRaridade(@RequestParam Raridade raridade) {
         return repo.findByRaridade(raridade);
     }
 
-    @GetMapping("/buscar/preco")
+    @GetMapping("/preco")
     public List<Item> buscarPorPrecoEntre(@RequestParam double min, @RequestParam double max) {
         return repo.findByPrecoBetween(min, max);
     }
