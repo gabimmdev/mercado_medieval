@@ -1,6 +1,7 @@
 package com.mercado.medieval.service;
 
 import com.mercado.medieval.model.Item;
+import com.mercado.medieval.model.Personagem;
 import com.mercado.medieval.model.Raridade;
 import com.mercado.medieval.model.TipoItem;
 import com.mercado.medieval.repository.ItemRepository;
@@ -58,4 +59,28 @@ public class ItemService {
     public List<Item> buscarPorPrecoEntre(double min, double max) {
         return itemRepository.findByPrecoBetween(min, max);
     }
+
+    public void trocarItensEntrePersonagens(Long idPersonagem1, Long idItem1, Long idPersonagem2, Long idItem2) {
+    Item item1 = itemRepository.findById(idItem1)
+        .orElseThrow(() -> new RuntimeException("Item 1 não encontrado"));
+    Item item2 = itemRepository.findById(idItem2)
+        .orElseThrow(() -> new RuntimeException("Item 2 não encontrado"));
+
+    if (item1.getDono() == null || !item1.getDono().getId().equals(idPersonagem1)) {
+        throw new RuntimeException("Item 1 não pertence ao personagem 1");
+    }
+
+    if (item2.getDono() == null || !item2.getDono().getId().equals(idPersonagem2)) {
+        throw new RuntimeException("Item 2 não pertence ao personagem 2");
+    }
+
+    Personagem dono1 = item1.getDono();
+    Personagem dono2 = item2.getDono();
+
+    item1.setDono(dono2);
+    item2.setDono(dono1);
+
+    itemRepository.save(item1);
+    itemRepository.save(item2);
+}
 }

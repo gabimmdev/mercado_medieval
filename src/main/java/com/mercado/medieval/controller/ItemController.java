@@ -3,12 +3,15 @@ package com.mercado.medieval.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.mercado.medieval.dto.TrocaItemDTO;
 import com.mercado.medieval.model.Item;
 import com.mercado.medieval.model.Raridade;
 import com.mercado.medieval.model.TipoItem;
 import com.mercado.medieval.repository.ItemRepository;
+import com.mercado.medieval.service.ItemService;
 
 import jakarta.validation.Valid;
 
@@ -18,6 +21,7 @@ public class ItemController {
 
     @Autowired
     private ItemRepository repo;
+    private ItemService itemService;
 
     @GetMapping
     public List<Item> listar() {
@@ -27,6 +31,20 @@ public class ItemController {
     @PostMapping
     public Item criar(@RequestBody @Valid Item item) {
         return repo.save(item);
+    }
+    @PostMapping("/trocar")
+    public ResponseEntity<String> trocarItens(@RequestBody TrocaItemDTO troca) {
+        try {
+            itemService.trocarItensEntrePersonagens(
+                troca.getIdPersonagem1(),
+                troca.getIdItem1(),
+                troca.getIdPersonagem2(),
+                troca.getIdItem2()
+            );
+            return ResponseEntity.ok("Itens trocados com sucesso.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("Erro ao trocar itens: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
