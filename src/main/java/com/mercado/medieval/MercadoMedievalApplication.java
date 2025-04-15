@@ -1,4 +1,4 @@
-package com.mercado.medieval.mercado_medieval;
+package com.mercado.medieval;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
