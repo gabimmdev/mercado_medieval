@@ -19,8 +19,8 @@ Este projeto é uma API REST desenvolvida com **Spring Boot** que simula um merc
 
 1. Clone o projeto:
 ```bash
-git clone https://github.com/seu-usuario/mercado-medieval-api.git
-cd mercado-medieval-api
+git clone https://github.com/gabimmdev/mercado_medieval.git
+cd mercado_api
 ```
 2. Use sua IDE preferida (IntelliJ, Eclipse, VS Code) ou execute pela linha de comando:
 ```bash
