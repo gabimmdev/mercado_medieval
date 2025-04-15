@@ -1,4 +1,4 @@
-package com.mercado.medieval.service;
+package com.mercado.medieval.mercado_api.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mercado.medieval.model.Classe;
-import com.mercado.medieval.model.Personagem;
-import com.mercado.medieval.repository.PersonagemRepository;
+import com.mercado.medieval.mercado_api.model.Classe;
+import com.mercado.medieval.mercado_api.model.Personagem;
+import com.mercado.medieval.mercado_api.repository.PersonagemRepository;
 
 @Service
 public class PersonagemService {

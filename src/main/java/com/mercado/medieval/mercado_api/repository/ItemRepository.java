@@ -1,12 +1,12 @@
-package com.mercado.medieval.repository;
+package com.mercado.medieval.mercado_api.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.mercado.medieval.model.Item;
-import com.mercado.medieval.model.Raridade;
-import com.mercado.medieval.model.TipoItem;
+import com.mercado.medieval.mercado_api.model.Item;
+import com.mercado.medieval.mercado_api.model.Raridade;
+import com.mercado.medieval.mercado_api.model.TipoItem;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByNomeContainingIgnoreCase(String nome);

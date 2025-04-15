@@ -1,4 +1,4 @@
-package com.mercado.medieval.controller;
+package com.mercado.medieval.mercado_api.controller;
 
 import java.util.List;
 
@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.mercado.medieval.dto.TrocaItemDTO;
-import com.mercado.medieval.model.Item;
-import com.mercado.medieval.model.Raridade;
-import com.mercado.medieval.model.TipoItem;
-import com.mercado.medieval.repository.ItemRepository;
-import com.mercado.medieval.service.ItemService;
+import com.mercado.medieval.mercado_api.dto.TrocaItemDTO;
+import com.mercado.medieval.mercado_api.model.Item;
+import com.mercado.medieval.mercado_api.model.Raridade;
+import com.mercado.medieval.mercado_api.model.TipoItem;
+import com.mercado.medieval.mercado_api.repository.ItemRepository;
+import com.mercado.medieval.mercado_api.service.ItemService;
 
 import jakarta.validation.Valid;
 

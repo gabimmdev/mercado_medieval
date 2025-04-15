@@ -1,4 +1,4 @@
-package com.mercado.medieval.model;
+package com.mercado.medieval.mercado_api.model;
 
 public enum Classe {
     GUERREIRO,

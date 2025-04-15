@@ -1,4 +1,4 @@
-package com.mercado.medieval.dto;
+package com.mercado.medieval.mercado_api.dto;
 
 public class TrocaItemDTO {
     private Long idPersonagem1;

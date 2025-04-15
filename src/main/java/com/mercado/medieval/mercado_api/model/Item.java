@@ -1,4 +1,4 @@
-package com.mercado.medieval.model;
+package com.mercado.medieval.mercado_api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
