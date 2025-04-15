@@ -1,8 +1,9 @@
 package com.mercado.medieval.controller;
 
-import java.util.List;
+import java.util.*;
 
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.mercado.medieval.model.Classe;
@@ -10,6 +11,8 @@ import com.mercado.medieval.model.Personagem;
 import com.mercado.medieval.repository.PersonagemRepository;
 
 import jakarta.validation.Valid;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @RestController
 @RequestMapping("/personagens")
@@ -24,23 +27,25 @@ public class PersonagemController {
     }
 
     @PostMapping
-    public Personagem criar(@RequestBody @Valid Personagem p) {
-        return repo.save(p);
+    public ResponseEntity<Personagem> criar(@RequestBody @Valid Personagem p) {
+        Personagem novoPersonagem = repo.save(p);
+        return new ResponseEntity<>(novoPersonagem, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Personagem atualizar(@PathVariable Long id, @RequestBody @Valid Personagem novo) {
-        Personagem p = repo.findById(id).orElseThrow();
+    public ResponseEntity<Personagem> atualizar(@PathVariable Long id, @RequestBody @Valid Personagem novo) {
+        Personagem p = repo.findById(id).orElseThrow(() -> new PersonagemNotFoundException(id));
         p.setNome(novo.getNome());
         p.setClasse(novo.getClasse());
         p.setNivel(novo.getNivel());
         p.setMoedas(novo.getMoedas());
-        return repo.save(p);
+        return new ResponseEntity<>(repo.save(p), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         repo.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/buscar/nome")
@@ -49,7 +54,32 @@ public class PersonagemController {
     }
 
     @GetMapping("/buscar/classe")
-    public List<Personagem> buscarPorClasse(@RequestParam Classe classe) {
+    public List<Personagem> buscarPorClasse(@RequestParam("classe") Classe classe) {
         return repo.findByClasse(classe);
+    }
+
+    @ControllerAdvice
+    public static class GlobalExceptionHandler {
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
+            Map<String, String> errors = new HashMap<>();
+            ex.getBindingResult().getAllErrors().forEach(error -> {
+                String fieldName = ((FieldError) error).getField();
+                String errorMessage = error.getDefaultMessage();
+                errors.put(fieldName, errorMessage);
+            });
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(PersonagemNotFoundException.class)
+        public ResponseEntity<String> handlePersonagemNotFound(PersonagemNotFoundException ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public static class PersonagemNotFoundException extends RuntimeException {
+        public PersonagemNotFoundException(Long id) {
+            super("Personagem não encontrado com o ID: " + id);
+        }
     }
 }
