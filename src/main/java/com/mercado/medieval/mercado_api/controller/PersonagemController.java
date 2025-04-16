@@ -32,7 +32,7 @@ public class PersonagemController {
         return new ResponseEntity<>(novoPersonagem, HttpStatus.CREATED);
     }
 
-    @PutMapping("/1")
+    @PutMapping("/{id}")
     public ResponseEntity<Personagem> atualizar(@PathVariable Long id, @RequestBody @Valid Personagem novo) {
         Personagem p = repo.findById(id).orElseThrow(() -> new PersonagemNotFoundException(id));
         p.setNome(novo.getNome());
@@ -42,7 +42,7 @@ public class PersonagemController {
         return new ResponseEntity<>(repo.save(p), HttpStatus.OK);
     }
 
-    @DeleteMapping("/1")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         repo.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -51,11 +51,13 @@ public class PersonagemController {
     @GetMapping("/nome")
     public List<Personagem> buscarPorNome(@RequestParam String nome) {
         return repo.findByNomeContainingIgnoreCase(nome);
-    }
+}
+
+
 
     @GetMapping("/classe")
-    public List<Personagem> buscarPorClasse(@RequestParam("classe") Classe classe) {
-        return repo.findByClasse(classe);
+    public List<Personagem> buscarPorClasse(@RequestParam String classe) {
+        return repo.findByNomeContainingIgnoreCase(classe);
     }
 
     @ControllerAdvice
